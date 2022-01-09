@@ -1,0 +1,172 @@
+Subset Sum
+Send Feedback
+You are given a set of N integers. You have to return true if there exists a subset that sum up to K, otherwise return false.
+Input Format
+The first line of the test case contains an integer 'N' representing the total elements in the set.
+
+The second line of the input contains N integers separated by a single space.    
+
+The third line of the input contains a single integer, denoting the value of K.
+Output Format
+Output Yes if there exists a subset whose sum is k, else output No.
+Constraints :
+1 <= N <= 10^3
+1 <= a[i] <= 10^3, where a[i] denotes an element of the set 
+1 <= K <= 10^3
+
+Time Limit: 1 sec
+Sample Input 1 :
+4
+4 3 5 2
+13
+Sample Output 1 :
+No
+Sample Input 2 :
+5
+4 2 5 6 7
+14
+Sample Output 2 :
+Yes
+
+
+//Main code
+
+public class Solution{
+    
+//     public static boolean issubsetexist(int [] arr , int n , int sum , int si , int ei,int current_sum)
+//     {
+        
+        
+//         if(current_sum==sum)
+//         {  // System.out.println(current_sum);
+//             return true ;
+//         }
+        
+//         if(si==ei)
+//         {
+//           //  System.out.println(current_sum);
+//             return false;
+//         }
+        
+//      boolean ans1=  issubsetexist(arr , n , sum , si+1 , ei,current_sum+arr[si]);
+//      boolean ans2=  issubsetexist(arr , n , sum , si+1 , ei, current_sum);
+        
+//         return ans1 || ans2;
+        
+        
+//     }
+    
+    
+    
+    
+    
+     static boolean value=false;
+        public static void knapsacksimilar_problem(int[] weights, int n, int sum , int index,int total_values)
+    {
+        if(index>=weights.length)
+        {   
+            if(sum==0)
+        { value=true;
+          //   System.out.println(value);
+        }
+            
+            return ;
+        }
+        
+        
+        if(weights[index]<=sum)
+        {// System.out.println(weights[index]);
+            knapsacksimilar_problem(weights,n, sum-weights[index] ,index+1,total_values+weights[index]);
+            knapsacksimilar_problem(weights,n, sum,index+1,total_values);
+        }
+            
+        else{
+                knapsacksimilar_problem(weights,n, sum,index+1,total_values);
+            
+        }
+        
+        
+        
+    }
+    
+ 
+    // as we know that this problem can be solved using knapsack so we sill see now the iterative version 
+    
+    
+    public static boolean subset_sum(int []arr, int n , int sum)
+    {
+        boolean [][]dp = new boolean[arr.length+1][sum+1];
+        dp[0][0]=true;
+        
+        
+        for(int i=1;i<dp[0].length;i++)
+        {
+            dp[0][i]=false;
+        }
+        
+         for(int i=1;i<dp.length;i++)
+        {
+            dp[i][0]=true;
+        }
+        
+        
+           for(int i=1;i<dp.length;i++)
+        {  
+            for(int j=1;j<dp[0].length;j++)
+            
+            {
+                
+                if(dp[i-1][j]==true)
+            {
+                dp[i][j]=true;
+            }
+                
+                else/// arr[i-1] conincides wiyh first index of array
+                {
+                    int rem= j-arr[i-1];
+                    
+                    if(j>=arr[i-1])
+                    {
+                        if (dp[i-1][rem]==true)
+                    {
+                        dp[i][j]=true;
+                    } 
+                        
+                    }
+                   
+                    
+                    
+                }
+                
+                
+            }
+                
+        }
+        
+        return dp[arr.length][sum];
+        
+        
+        
+        
+        
+        
+    }
+    
+    
+    static boolean isSubsetPresent(int[] arr, int n, int sum) {
+       
+        return subset_sum(arr, n , sum);
+        //knapsacksimilar_problem(arr, n, sum ,0,0);
+                  //      System.out.println(min_value);
+
+        // return value;
+        
+        /* Your class should be named Solution
+		 * Don't write main().
+		 * Don't read input, it is passed as function argument.
+		 * Return output and don't print it.
+	 	 * Taking input and printing output is handled automatically.
+        */
+
+    }
+}
